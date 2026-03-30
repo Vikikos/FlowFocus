@@ -13,7 +13,6 @@ class ThemeController extends Controller
     public function index()
     {
 
-        return view('themes.index');
     }
 
     /**
@@ -21,7 +20,7 @@ class ThemeController extends Controller
      */
     public function create()
     {
-        return view('themes.create');
+
     }
 
     /**
@@ -53,7 +52,7 @@ class ThemeController extends Controller
      */
     public function edit(Theme $theme)
     {
-        return view (themes.edit);
+
     }
 
     /**

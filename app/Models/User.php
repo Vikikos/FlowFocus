@@ -47,8 +47,8 @@ class User extends Authenticatable
         ];
     }
 
-    public function notas()
+    public function marks()
     {
-        return $this->hasMany(Nota::class, 'id_usuario');
+        return $this->hasMany(Mark::class, 'id_usuario');
     }
 }

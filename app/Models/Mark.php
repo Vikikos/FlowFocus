@@ -5,17 +5,16 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Nota extends Model
+class Mark extends Model
 {
     use HasFactory;
 
-    protected $table = 'nota';
+    protected $table = 'mark';
 
     protected $fillable = [
-        'id_usuario',
-        'titulo',
-        'contenido',
-        'fecha_creacion',
+        'title',
+        'content',
+        'date',
     ];
 
     public function usuario()

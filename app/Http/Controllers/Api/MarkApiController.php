@@ -1,26 +1,18 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
 use App\Models\Mark;
 use Illuminate\Http\Request;
 
-class MarkController
+class MarkApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-
+        //
     }
 
     /**
@@ -34,7 +26,6 @@ class MarkController
         $mark->contenido = $request->input('contenido');
         $mark->fecha_creacion = $request->input('fecha_creacion');
         $mark->save();
-
     }
 
     /**
@@ -42,15 +33,7 @@ class MarkController
      */
     public function show(Mark $mark)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Mark $mark)
-    {
-
+        return $mark;
     }
 
     /**
@@ -63,7 +46,6 @@ class MarkController
         $mark->fecha_creacion = $request->input('fecha_creacion');
         $mark->id_usuario = $request->input('id_usuario');
         $mark->save();
-        return redirect()->route('marks.index', $mark);
     }
 
     /**

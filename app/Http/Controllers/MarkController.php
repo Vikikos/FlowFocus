@@ -12,7 +12,7 @@ class MarkController
      */
     public function index()
     {
-        return view('marks.index');
+
     }
 
     /**
@@ -20,7 +20,7 @@ class MarkController
      */
     public function create()
     {
-        return view('marks.create');
+
     }
 
     /**
@@ -50,7 +50,7 @@ class MarkController
      */
     public function edit(Mark $mark)
     {
-        return view('marks.edit', compact('mark'));
+        
     }
 
     /**

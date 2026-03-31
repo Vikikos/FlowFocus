@@ -2,65 +2,64 @@
 
 namespace App\Http\Controllers\Api;
 
-use App\Http\Requests\PomodoroRequest;
 use App\Http\Controllers\Controller;
-use App\Models\Pomodoro;
+use App\Models\Task;
+use App\Http\Requests\TaskRequest;
 use Illuminate\Http\Request;
 
-class PomodoroApiController extends Controller
+class TaskApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        return response()->json(Pomodoro::all());
+        return response()->json(Task::all());
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PomodoroRequest $request)
+    public function store(TaskRequest $request)
     {
-        $pomodoro = Pomodoro::create([
+        $task = Pomodoro::create([
             ...$request->validated(),
             'user_id' => auth()->id(),
         ]);
 
         return response()->json([
             'message' => 'Configuración de Pomodoro guardada',
-            'data'    => $pomodoro
+            'data'    => $task
         ], 201);
-
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Pomodoro $pomodoro)
+    public function show(Task $task)
     {
-        return response()->json($pomodoro);
+        return response()->json($task);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(PomodoroRequest $request, Pomodoro $pomodoro)
+    public function update(TaskRequest $request, Task $task)
     {
-        $pomodoro->update($request->validated());
+        $task->update($request->validated());
 
         return response()->json([
-            'message' => 'Configuración de Pomodoro actualizada',
-            'data'    => $pomodoro
+            'message' => 'Tarea actualizada',
+            'data'    => $task
         ], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Pomodoro $pomodoro)
+    public function destroy(Task $task)
     {
-        $pomodoro->delete();
+        $task->delete();
         return response()->json(null,204);
     }
 }

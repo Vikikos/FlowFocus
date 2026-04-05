@@ -52,4 +52,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Chronometer::class);
     }
+    public function calendars(): HasMany
+    {
+        return $this->hasMany(Calendar::class);
+    }
+
 }

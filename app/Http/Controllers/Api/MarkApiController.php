@@ -12,7 +12,7 @@ class MarkApiController
      */
     public function index()
     {
-        //
+        return (new MarkCollection(Mark::get()));
     }
 
     /**
@@ -20,12 +20,10 @@ class MarkApiController
      */
     public function store(Request $request)
     {
-        $mark = new Mark();
-        $mark->id_usuario = $request->input('id_usuario');
-        $mark->titulo = $request->input('titulo');
-        $mark->contenido = $request->input('contenido');
-        $mark->fecha_creacion = $request->input('fecha_creacion');
-        $mark->save();
+        $mark = Mark::create($request->validated());
+        return (new MarkResource($mark))
+            ->response()
+            ->setStatusCode(201);
     }
 
     /**
@@ -33,7 +31,7 @@ class MarkApiController
      */
     public function show(Mark $mark)
     {
-        return $mark;
+        return new MarkResource($mark);
     }
 
     /**
@@ -41,11 +39,8 @@ class MarkApiController
      */
     public function update(Request $request, Mark $mark)
     {
-        $mark->contenido = $request->input('contenido');
-        $mark->titulo = $request->input('titulo');
-        $mark->fecha_creacion = $request->input('fecha_creacion');
-        $mark->id_usuario = $request->input('id_usuario');
-        $mark->save();
+        $mark = Mark::update($request->validated());
+        return (new MarkResource($mark));
     }
 
     /**
@@ -53,6 +48,7 @@ class MarkApiController
      */
     public function destroy(Mark $mark)
     {
-        //
+        $mark->delete();
+        return response()->json(null, 204);
     }
 }

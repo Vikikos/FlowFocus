@@ -49,6 +49,15 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function pomodoros()
+    {
+        return $this->hasMany(Pomodoro::class);
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
 
     public function marks()
     {

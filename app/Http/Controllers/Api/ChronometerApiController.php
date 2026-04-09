@@ -32,11 +32,6 @@ class ChronometerApiController extends Controller
 
     public function update(ChronometerRequest $request, Chronometer $chronometer): ChronometerResource
     {
-        // $chronometer->name = $request->input('name');
-        // $chronometer->direction = $request->input('direction');
-        // $chronometer->duration = $request->input('duration');
-
-        // $chronometer->save();
         $chronometer->update($request->validated());
 
         return (new ChronometerResource($chronometer));

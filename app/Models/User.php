@@ -50,13 +50,13 @@ class User extends Authenticatable
         ];
     }
 
-    public function chronometers(): HasMany
-    {
-        return $this->hasMany(Chronometer::class);
-    }
-    public function calendars(): HasMany
-    {
-        return $this->hasMany(Calendar::class);
-    }
+    // public function chronometers(): HasMany
+    // {
+    //     return $this->hasMany(Chronometer::class);
+    // }
+    // public function calendars(): HasMany
+    // {
+    //     return $this->hasMany(Calendar::class);
+    // }
 
 }

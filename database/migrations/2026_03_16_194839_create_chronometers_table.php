@@ -11,12 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('table_timeblock', function (Blueprint $table) {
+        Schema::create('chronometers', function (Blueprint $table) {
             $table->id();
-            $table->string('title');
-            $table->time('time_start');
-            $table->time('time_end');
-            $table->date('date');
+            $table->string('name');
+            $table->enum('status', ['paused', 'running'])->default('paused');
+            $table->enum('direction', ['count_up', 'count_down'])->default('count_up');
+            $table->integer('duration');
             $table->timestamps();
         });
     }
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('table_timeblock');
+        Schema::dropIfExists('chronometers');
     }
 };

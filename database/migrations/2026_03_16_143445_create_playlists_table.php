@@ -11,12 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('nota', function (Blueprint $table) {
+        Schema::create('playlists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('id_usuario')->constrained('users')->onDelete('cascade');
-            $table->string('titulo');
-            $table->text('contenido')->nullable();
-            $table->date('fecha_creacion')->useCurrent();
+            $table->string('name_list');
             $table->timestamps();
         });
     }
@@ -26,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('nota');
+        Schema::dropIfExists('playlists');
     }
 };

@@ -49,14 +49,27 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    public function pomodoros()
+    {
+        return $this->hasMany(Pomodoro::class);
+    }
 
-    // public function chronometers(): HasMany
-    // {
-    //     return $this->hasMany(Chronometer::class);
-    // }
-    // public function calendars(): HasMany
-    // {
-    //     return $this->hasMany(Calendar::class);
-    // }
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
+    }
+
+    public function marks()
+    {
+        return $this->hasMany(Mark::class, 'id_usuario');
+    }
+    public function chronometers(): HasMany
+    {
+        return $this->hasMany(Chronometer::class);
+    }
+    public function calendars(): HasMany
+    {
+        return $this->hasMany(Calendar::class);
+    }
 
 }

@@ -7,19 +7,18 @@ use App\Models\Calendar;
 use App\Http\Requests\CalendarRequest;
 use App\Http\Resources\CalendarCollection;
 use App\Http\Resources\CalendarResource;
-use App\Models\Chronometer;
 
 class CalendarApiController extends Controller
 {
     public function index()
     {
-        return (new CalendarCollection(Chronometer::get()));
+        return new CalendarCollection(Calendar::get());
     }
 
     public function store(CalendarRequest $request)
     {
         $calendar = Calendar::create($request->validated());
-        return (new CalendarResource($calendar));
+        return new CalendarResource($calendar);
     }
 
     public function show(Calendar $calendar)

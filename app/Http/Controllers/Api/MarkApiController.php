@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Models\Mark;
 use Illuminate\Http\Request;
+use App\Http\Resources\MarkCollection;
+use App\Http\Resources\MarkResource;
 
 class MarkApiController
 {

@@ -15,6 +15,8 @@ class Calendar extends Model
         'view_calendar'
     ];
 
+    
+
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);

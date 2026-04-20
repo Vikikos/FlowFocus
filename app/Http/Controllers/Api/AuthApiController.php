@@ -26,7 +26,7 @@ class AuthApiController extends Controller
 
     public function login(UserRequest $request) 
     {
-        $credentials = $request->only('userName','password');
+        $credentials = $request->only('email','password'); 
         if(Auth::guard('web')->attempt($credentials)){
             $request->session()->regenerate();
             return response()->json(['message' => 'Logueado con éxito']);

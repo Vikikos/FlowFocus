@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace App\Http\Controllers\Api;
 
@@ -6,13 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\UserCollection;
 use App\Http\Resources\UserResource;
 use App\Models\User;
-use Illuminate\Http\Request;
+
 use App\Http\Requests\UserRequest;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Http\Request;
 
 class UserApiController extends Controller
 {
+    public function getSessionData(Request $request)
+    {
+
+        $user = $request->user();
+
+        return new UserResource($user);
+    }
 
     public function show(User $user)
     {

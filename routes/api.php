@@ -9,16 +9,18 @@ use App\Http\Controllers\Api\CalendarApiController;
 use App\Http\Controllers\Api\ChronometerApiController;
 use App\Http\Controllers\Api\TimeBlockController;
 use App\Http\Controllers\Api\MarkApiController;
+use App\Http\Controllers\Api\UserApiController;
 
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
+// Route::get('/user', function (Request $request) {
+//     return $request->user();
+// })->middleware('auth:sanctum');
 
 Route::apiResource('pomodoro',PomodoroApiController::class);
 Route::apiResource('task',TaskApiController::class);
-Route::post('/register', [AuthApiController::class, 'register']);//publica
+Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica
 Route::post('/logout', [AuthApiController::class, 'logout']);//protegida
+Route::middleware('auth:sanctum')->get('/user', [UserApiController::class, 'getSessionData']);
 
 Route::apiResource('calendars',CalendarApiController::class);//protegida
 Route::apiResource('chronometer', ChronometerApiController::class);//protegida

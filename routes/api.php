@@ -23,7 +23,7 @@ Route::post('/logout', [AuthApiController::class, 'logout']);//protegida
 Route::middleware('auth:sanctum')->get('/user', [UserApiController::class, 'getSessionData']);
 
 Route::apiResource('calendars',CalendarApiController::class);//protegida
-Route::apiResource('chronometer', ChronometerApiController::class);//protegida
+Route::apiResource('chronometers', ChronometerApiController::class);//protegida
 Route::apiResource('timeblocks', TimeBlockController::class);//protegida
 
 Route::apiResource('marks', MarkApiController::class);

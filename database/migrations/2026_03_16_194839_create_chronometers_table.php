@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('name');
             $table->enum('status', ['paused', 'running'])->default('paused');
             $table->enum('direction', ['count_up', 'count_down'])->default('count_up');
-            $table->integer('duration');
+            $table->integer('duration')->default(0);
             $table->timestamps();
         });
     }

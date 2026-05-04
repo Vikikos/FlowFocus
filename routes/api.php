@@ -19,11 +19,16 @@ Route::apiResource('pomodoro',PomodoroApiController::class);
 Route::apiResource('task',TaskApiController::class);
 Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica
-Route::post('/logout', [AuthApiController::class, 'logout']);//protegida
-Route::middleware('auth:sanctum')->get('/user', [UserApiController::class, 'getSessionData']);
 
-Route::apiResource('calendars',CalendarApiController::class);//protegida
-Route::apiResource('chronometers', ChronometerApiController::class);//protegida
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+    Route::get('/user', [UserApiController::class, 'getSessionData']);
+    
+    Route::apiResource('chronometers', ChronometerApiController::class);
+    Route::apiResource('calendars',CalendarApiController::class);
+
+});
 Route::apiResource('timeblocks', TimeBlockController::class);//protegida
 
 Route::apiResource('marks', MarkApiController::class);

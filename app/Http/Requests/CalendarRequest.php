@@ -23,7 +23,8 @@ class CalendarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'format_year' => ['required','in:school,normal'],
+            'name' => ['required'],
+            // 'format_year' => ['required','in:school,normal'],
             'view_calendar' => ['required','in:year,month,week'],
         ];
     }

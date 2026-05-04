@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('chronometers', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
             $table->string('name');
             $table->enum('status', ['paused', 'running'])->default('paused');
             $table->enum('direction', ['count_up', 'count_down'])->default('count_up');
-            $table->integer('duration');
+            $table->integer('duration')->default(0);
             $table->timestamps();
         });
     }

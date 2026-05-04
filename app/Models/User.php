@@ -65,11 +65,11 @@ class User extends Authenticatable
     }
     public function chronometers(): HasMany
     {
-        return $this->hasMany(Chronometer::class);
+        return $this->hasMany(Chronometer::class,'id_user');
     }
     public function calendars(): HasMany
     {
-        return $this->hasMany(Calendar::class);
+        return $this->hasMany(Calendar::class,'id_user');
     }
 
 }

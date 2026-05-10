@@ -6,18 +6,25 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
-class TimeBlock extends Model
+class Timeblock extends Model
 {
     use HasFactory;
 
     protected $fillable = [
         'title',
-        'time_start',
-        'time_end',
+        'start',
+        'end',
+        'color'
+    ];
+
+    protected $hidden = [
+        'id_calendar',
+        'created_at',
+        'updated_at'
     ];
 
     public function calendar(): BelongsTo
     {
-        return $this->belongsTo(Calendar::class);
+        return $this->belongsTo(Calendar::class, 'id_calendar');
     }
 }

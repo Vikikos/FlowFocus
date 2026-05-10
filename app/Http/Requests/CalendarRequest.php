@@ -24,8 +24,8 @@ class CalendarRequest extends FormRequest
     {
         return [
             'name' => ['required'],
-            // 'format_year' => ['required','in:school,normal'],
-            'view_calendar' => ['required','in:year,month,week'],
+            'view_calendar' => ['required','in:multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay'],
+
         ];
     }
 }

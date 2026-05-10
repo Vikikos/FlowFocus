@@ -28,7 +28,16 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('chronometers', ChronometerApiController::class);
     Route::apiResource('calendars',CalendarApiController::class);
 
+    Route::prefix('calendars/{idCalendar}')->group(function () {
+        
+        Route::get('timeblocks', [TimeblockController::class, 'index']);
+        Route::get('timeblocks/{timeblock}', [TimeblockController::class, 'show']);
+        Route::post('timeblocks', [TimeblockController::class, 'store']);
+        Route::put('timeblocks/{timeblock}', [TimeblockController::class, 'update']);
+        Route::delete('timeblocks/{timeblock}', [TimeblockController::class, 'destroy']);
+        
+    });
+
 });
-Route::apiResource('timeblocks', TimeBlockController::class);//protegida
 
 Route::apiResource('marks', MarkApiController::class);

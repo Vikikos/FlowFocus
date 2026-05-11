@@ -5,7 +5,7 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class TimeBlockRequest extends FormRequest
+class TimeblockRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,10 +23,10 @@ class TimeBlockRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'title' => ['required','string','max:255'],
-            'date' => ['required','date'],
-            'time_start' => ['required','date_format:H:i:s'],
-            'time_end' => ['required','date_format:H:i:s','after:time_start'],
+            'title' => ['required', 'string', 'max:50'],
+            'start' => ['required', 'date', 'date_format:Y-m-d H:i'],
+            'end'   => ['required', 'date', 'date_format:Y-m-d H:i', 'after:start'],
+            'color' => ['nullable', 'string', 'max:20'],
         ];
     }
 }

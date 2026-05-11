@@ -24,7 +24,7 @@ class CalendarApiController extends Controller
         return new CalendarResource($calendar);
     }
 
-    public function show(Request $request, int|string $id)
+    public function show(Request $request, int|string $id): CalendarResource
     {
         $calendar = $request->user()
         ->calendars()
@@ -37,7 +37,7 @@ class CalendarApiController extends Controller
     {
 
         if ($request->user()->id !== $calendar->id_user) {
-            abort(403, 'No tienes permiso para editar este cronómetro.');
+            abort(403, 'No tienes permiso para editar este calendario');
         }
         $calendar->update($request->validated());
 
@@ -50,7 +50,7 @@ class CalendarApiController extends Controller
 
         $calendar->delete();
          return response()->json([
-            'message' => 'Cronómetro eliminado correctamente'
+            'message' => 'Calendario eliminado correctamente'
         ], 204);
     }
 }

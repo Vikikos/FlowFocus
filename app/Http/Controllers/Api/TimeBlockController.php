@@ -3,54 +3,64 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\TimeBlockRequest;
+use Illuminate\Http\Request;
+use App\Http\Requests\TimeblockRequest;
 use App\Http\Resources\CalendarResource;
-use App\Http\Resources\TimeBlockCollection;
-use App\Http\Resources\TimeBlockResource;
-use App\Models\TimeBlock;
+use App\Http\Resources\TimeblockCollection;
+use App\Http\Resources\TimeblockResource;
+use App\Models\Calendar;
+use App\Models\Timeblock;
 
-class TimeBlockController extends Controller
+class TimeblockController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(Request $request, $idCalendar): TimeblockCollection
     {
-        return (new TimeBlockCollection(TimeBlock::get()));
+        $calendar = $request->user()->calendars()->findOrFail($idCalendar);
+
+        return new TimeblockCollection($calendar->timeblocks()->orderBy('start','asc')->get());
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(TimeBlockRequest $request)
+    public function store(TimeblockRequest $request, int|string $idCalendar)
     {
-        $timeBlock = TimeBlock::create($request->validate());
-        return (new CalendarResource($timeBlock));
+        $calendar = $request->user()->calendars()->findOrFail($idCalendar);
+        $timeblock = $calendar->timeblocks()->create($request->validated());
+
+        return new TimeblockResource($timeblock);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(TimeBlock $timeBlock)
+    public function show(Request $request, int|string $idCalendar,int|string $idTimeblock)
     {
-        return new TimeBlockResource($timeBlock);
+        $calendar = $request->user()->calendars()->findOrFail($idCalendar);
+        $timeblock = $calendar->timeblocks()->findOrFail($idTimeblock);
+
+        return new TimeblockResource($timeblock);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(TimeBlockRequest $request, TimeBlock $timeBlock)
+    public function update(TimeblockRequest $request, int|string $idCalendar, Timeblock $timeblock)
     {
-        $timeBlock->update($request->validated());
-        return (new CalendarResource($timeBlock));
+        $calendar = $request->user()->calendars()->findOrFail($idCalendar);
+
+        if ($request->user()->id !== $calendar->id_user) {
+            abort(403, 'No tienes permiso para editar este calendario');
+        }
+
+        if ($timeblock->id_calendar !== $calendar->id) {
+            abort(403, 'Este bloque no pertenece a este calendario');
+        }
+
+        $timeblock->update($request->validated());
+        return new TimeblockResource($timeblock);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TimeBlock $timeBlock)
+    public function destroy(Request $request, int|string $idCalendar, Timeblock $timeblock)
     {
-        $timeBlock->delete();
+        $calendar = $request->user()->calendars()->findOrFail($idCalendar);
+
+        if ($timeblock->id_calendar !== $calendar->id) {
+            abort(403, 'Este bloque no pertenece al calendario especificado.');
+        }
+
+        $timeblock->delete();
         return response()->json(null,204);
     }
 }

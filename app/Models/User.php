@@ -61,7 +61,7 @@ class User extends Authenticatable
 
     public function marks()
     {
-        return $this->hasMany(Mark::class, 'id_usuario');
+        return $this->hasMany(Mark::class, 'id_user');
     }
     public function chronometers(): HasMany
     {

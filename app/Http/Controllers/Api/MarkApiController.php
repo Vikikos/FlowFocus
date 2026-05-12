@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Http\Requests\MarkRequest;
 use App\Models\Mark;
 use Illuminate\Http\Request;
 use App\Http\Resources\MarkCollection;
@@ -9,48 +10,38 @@ use App\Http\Resources\MarkResource;
 
 class MarkApiController
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request): MarkCollection
     {
-        return (new MarkCollection(Mark::get()));
+        $marks = $request->user()->marks()->get();
+        return new MarkCollection($marks);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
+    public function store(MarkRequest $request): MarkResource
     {
-        $mark = Mark::create($request->validated());
-        return (new MarkResource($mark))
-            ->response()
-            ->setStatusCode(201);
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(Mark $mark)
-    {
-        return new MarkResource($mark);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Mark $mark)
-    {
-        $mark = Mark::update($request->validated());
+        $mark = $request->user()->marks()->create($request->validated());
         return (new MarkResource($mark));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Mark $mark)
+    public function show(Request $request, int|string $id): MarkResource
     {
+        $mark = $request->user()
+        ->marks()
+        ->findOrFail($id);
+
+        return new MarkResource($mark);
+    }
+
+    public function destroy(Request $request, int|string $id)
+    {
+        $mark = $request->user()
+        ->marks()
+        ->findOrFail($id);
+
         $mark->delete();
-        return response()->json(null, 204);
+
+        return response()->json([
+            'message' => 'Nota eliminada correctamente'
+        ], 204);
     }
 }

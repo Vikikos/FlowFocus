@@ -37,7 +37,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('timeblocks/{timeblock}', [TimeblockController::class, 'destroy']);
         
     });
-
+    Route::apiResource('marks', MarkApiController::class)->except([
+        'update'
+    ]);
 });
 
-Route::apiResource('marks', MarkApiController::class);
+

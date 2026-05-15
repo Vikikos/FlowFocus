@@ -16,7 +16,6 @@ use App\Http\Controllers\Api\UserApiController;
 // })->middleware('auth:sanctum');
 
 Route::apiResource('pomodoro',PomodoroApiController::class);
-Route::apiResource('task',TaskApiController::class);
 Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica
 
@@ -26,8 +25,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/user', [UserApiController::class, 'getSessionData']);
     
     Route::apiResource('chronometers', ChronometerApiController::class);
-    Route::apiResource('calendars',CalendarApiController::class);
 
+    Route::apiResource('calendars',CalendarApiController::class);
     Route::prefix('calendars/{idCalendar}')->group(function () {
         
         Route::get('timeblocks', [TimeblockController::class, 'index']);
@@ -37,8 +36,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('timeblocks/{timeblock}', [TimeblockController::class, 'destroy']);
         
     });
+
     Route::apiResource('marks', MarkApiController::class)->except([
         'update'
+    ]);
+
+    Route::get('kanban', [TaskApiController::class, 'index']);
+    Route::patch('tasks/{task}/move', [TaskApiController::class, 'changeColumn']);
+    Route::apiResource('tasks', TaskApiController::class)->except([
+        'update',
+        'index'
     ]);
 });
 

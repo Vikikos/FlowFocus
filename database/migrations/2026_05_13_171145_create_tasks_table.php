@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('kanban_id')->constrained()->onDelete('cascade');
             $table->string('name');
             $table->text('description');
-            $table->string('state');
             $table->date('expiration_date');
+            $table->enum('column', ['new','progress','done'])->default('new');
             $table->timestamps();
         });
     }

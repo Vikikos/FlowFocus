@@ -1,24 +1,17 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
-use App\Models\Kanban;
+use App\Http\Controllers\Controller;
+use App\Models\Theme;
 use Illuminate\Http\Request;
 
-class KanbanController extends Controller
+class ThemeApiController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
     public function index()
-    {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
     {
         //
     }
@@ -34,15 +27,7 @@ class KanbanController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Kanban $kanban)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Kanban $kanban)
+    public function show(Theme $theme)
     {
         //
     }
@@ -50,7 +35,7 @@ class KanbanController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Kanban $kanban)
+    public function update(Request $request, Theme $theme)
     {
         //
     }
@@ -58,7 +43,7 @@ class KanbanController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Kanban $kanban)
+    public function destroy(Theme $theme)
     {
         //
     }

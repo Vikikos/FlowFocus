@@ -3,8 +3,6 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\LoginRequest;
-use Laravel\Sanctum\HasApiTokens;
 use App\Http\Requests\UserRequest;
 use App\Http\Resources\UserResource;
 use App\Models\User;
@@ -22,8 +20,10 @@ class AuthApiController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password'])
         ]);
-
+        
         $token = $user->createToken('main')->plainTextToken;
+
+        $user->kanban()->create();
 
         Auth::login($user);
         return response([

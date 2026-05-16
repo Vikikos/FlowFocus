@@ -12,27 +12,40 @@ class PomodoroApiController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+
     public function index()
     {
-        return response()->json(Pomodoro::all());
+        $user = auth()->user();
+    /**
+        if (!$user) {
+            return response()->json(['message' => 'No autenticado'], 401);
+        }
+*/
+        $pomodoros = Pomodoro::all();
+
+        //return response()->json($user->pomodoros);
+        return response()->json($pomodoros);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(PomodoroRequest $request)
-    {
-        $pomodoro = Pomodoro::create([
-            ...$request->validated(),
-            'user_id' => auth()->id(),
-        ]);
+   public function store(Request $request) {
+    $data = $request->validate([
+        'predetermined' => 'required|string',
+        'work_duration' => 'required|integer',
+        'break_duration' => 'required|integer',
+        'total_sessions' => 'required|integer',
+    ]);
 
-        return response()->json([
-            'message' => 'Configuración de Pomodoro guardada',
-            'data'    => $pomodoro
-        ], 201);
+    // Asignamos el user_id automáticamente
+    // Si aún no tienes login, puedes poner un 1 temporalmente
+    $data['user_id'] = auth()->id() ?? 1;
 
-    }
+    $pomodoro = Pomodoro::create($data);
+    return response()->json($pomodoro, 201);
+}
 
     /**
      * Display the specified resource.

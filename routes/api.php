@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PomodoroApiController;
 use App\Http\Controllers\Api\TaskApiController;
@@ -11,11 +10,6 @@ use App\Http\Controllers\Api\TimeBlockController;
 use App\Http\Controllers\Api\MarkApiController;
 use App\Http\Controllers\Api\UserApiController;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
-Route::apiResource('pomodoro',PomodoroApiController::class);
 Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica
 
@@ -47,6 +41,8 @@ Route::middleware('auth:sanctum')->group(function () {
         'update',
         'index'
     ]);
+
+    Route::apiResource('pomodoro',PomodoroApiController::class);
 });
 
 

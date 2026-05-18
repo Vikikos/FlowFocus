@@ -11,6 +11,7 @@ class Pomodoro extends Model
         'work_duration',
         'break_duration',
         'total_sessions',
+        'user_id'
     ];
     public function user()
     {

@@ -4,63 +4,51 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Requests\PomodoroRequest;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\PomodoroCollection;
+use App\Http\Resources\PomodoroResource;
 use App\Models\Pomodoro;
 use Illuminate\Http\Request;
 
 class PomodoroApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+    public function index(): PomodoroCollection
     {
-        return response()->json(Pomodoro::all());
+        $pomodoros = Pomodoro::where('user_id', auth()->id())->get();
+
+        return new PomodoroCollection($pomodoros);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(PomodoroRequest $request)
+    public function store(Request $request): PomodoroResource
     {
-        $pomodoro = Pomodoro::create([
-            ...$request->validated(),
-            'user_id' => auth()->id(),
+        $data = $request->validate([
+            'predetermined' => 'required|string',
+            'work_duration' => 'required|integer',
+            'break_duration' => 'required|integer',
+            'total_sessions' => 'required|integer',
         ]);
 
-        return response()->json([
-            'message' => 'Configuración de Pomodoro guardada',
-            'data'    => $pomodoro
-        ], 201);
+        $data['user_id'] = auth()->id() ?? 1;
 
+        $pomodoro = Pomodoro::create($data);
+
+        return new PomodoroResource($pomodoro);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Pomodoro $pomodoro)
+    public function show(Pomodoro $pomodoro): PomodoroResource
     {
-        return response()->json($pomodoro);
+        return new PomodoroResource($pomodoro);
     }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(PomodoroRequest $request, Pomodoro $pomodoro)
+    public function update(PomodoroRequest $request, Pomodoro $pomodoro): PomodoroResource
     {
         $pomodoro->update($request->validated());
 
-        return response()->json([
-            'message' => 'Configuración de Pomodoro actualizada',
-            'data'    => $pomodoro
-        ], 200);
+        return new PomodoroResource($pomodoro);
     }
 
-    /**
-     * Remove the specified resource from storage.
-     */
     public function destroy(Pomodoro $pomodoro)
     {
         $pomodoro->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
     }
 }

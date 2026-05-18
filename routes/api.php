@@ -15,7 +15,7 @@ use App\Http\Controllers\Api\UserApiController;
 //     return $request->user();
 // })->middleware('auth:sanctum');
 
-Route::apiResource('pomodoro',PomodoroApiController::class);
+Route::apiResource('pomodoro',PomodoroApiController::class)->middleware('auth:sanctum');
 Route::apiResource('task',TaskApiController::class);
 Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica

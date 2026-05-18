@@ -25,7 +25,6 @@ class MarkRequest extends FormRequest
         return [
             'title' => 'required|string|max:255',
             'content' => 'required|string',
-            'date' => 'required|date',
         ];
     }
 }

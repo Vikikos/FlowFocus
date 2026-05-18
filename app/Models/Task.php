@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class Task extends Model
 {
@@ -11,10 +12,12 @@ class Task extends Model
         'description',
         'state',
         'expiration_date',
+        'column'
     ];
-    public function user()
+
+    public function kanban(): BelongsTo
     {
-        return $this->belongsTo(User::class);
+        return $this->belongsTo(Kanban::class);
     }
 
 }

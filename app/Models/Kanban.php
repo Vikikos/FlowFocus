@@ -5,26 +5,30 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
-class Timeblock extends Model
+class Kanban extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'title',
-        'start',
-        'end',
-        'color'
+        'id_user'
     ];
 
     protected $hidden = [
-        'id_calendar',
+        'id',
+        'id_user',
         'created_at',
         'updated_at'
     ];
 
-    public function calendar(): BelongsTo
+    public function user(): BelongsTo
     {
-        return $this->belongsTo(Calendar::class, 'id_calendar');
+        return $this->belongsTo(User::class);
+    }
+
+    public function tasks(): HasMany
+    {
+        return $this->hasMany(Task::class); 
     }
 }

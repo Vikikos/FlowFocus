@@ -19,9 +19,9 @@ class TaskRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name'            => 'required|string|max:255',
-            'description'     => 'required|string',
-            'state'           => 'required|string|in:pending,in_progress,completed',
+            'name'            => 'required|string|max:50',
+            'description'     => 'required|string|max:255',
+            'column'           => 'string|in:new,progress,done',
             'expiration_date' => 'required|date',
         ];
     }

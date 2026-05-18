@@ -5,61 +5,62 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Task;
 use App\Http\Requests\TaskRequest;
+use App\Http\Resources\TaskCollection;
+use App\Http\Resources\TaskResource;
 use Illuminate\Http\Request;
 
 class TaskApiController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
-    public function index()
+
+    public function index(Request $request)
     {
-        return response()->json(Task::all());
+        $kanban = $request->user()->kanban;
+
+        return new TaskCollection($kanban->tasks);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
     public function store(TaskRequest $request)
     {
-        $task = Pomodoro::create([
-            ...$request->validated(),
-            'user_id' => auth()->id(),
+        $kanban = $request->user()->kanban;
+
+        $task = $kanban->tasks()->create($request->validated());
+
+        return new TaskResource($task);
+    }
+
+    public function show(Request $request, Task $task)
+    {
+        $this->authorizeOwner($request, $task);
+        return new TaskResource($task);
+    }
+
+    public function changeColumn(Request $request, Task $task)
+    {
+        $this->authorizeOwner($request, $task);
+
+        $validated = $request->validate([
+            'column' => 'required|in:new,progress,done'
         ]);
 
-        return response()->json([
-            'message' => 'Configuración de Pomodoro guardada',
-            'data'    => $task
-        ], 201);
+        $task->update([
+            'column' => $validated['column']
+        ]);
+
+        return new TaskResource($task);
     }
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Task $task)
+    public function destroy(Request $request, Task $task)
     {
-        return response()->json($task);
-    }
+        $this->authorizeOwner($request, $task);
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(TaskRequest $request, Task $task)
-    {
-        $task->update($request->validated());
-
-        return response()->json([
-            'message' => 'Tarea actualizada',
-            'data'    => $task
-        ], 200);
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Task $task)
-    {
         $task->delete();
-        return response()->json(null,204);
+        return response()->json(null, 204);
+    }
+
+    private function authorizeOwner(Request $request, Task $task)
+    {
+        if ($task->kanban_id !== $request->user()->kanban->id) {
+            abort(403, 'No tienes permiso para gestionar esta tarea.');
+        }
     }
 }

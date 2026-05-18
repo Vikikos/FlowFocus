@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\PomodoroApiController;
 use App\Http\Controllers\Api\TaskApiController;
@@ -11,19 +10,39 @@ use App\Http\Controllers\Api\TimeBlockController;
 use App\Http\Controllers\Api\MarkApiController;
 use App\Http\Controllers\Api\UserApiController;
 
-// Route::get('/user', function (Request $request) {
-//     return $request->user();
-// })->middleware('auth:sanctum');
-
-Route::apiResource('pomodoro',PomodoroApiController::class)->middleware('auth:sanctum');
-Route::apiResource('task',TaskApiController::class);
 Route::post('/signup', [AuthApiController::class, 'signup']);//publica
 Route::post('/login', [AuthApiController::class, 'login']);//publica
-Route::post('/logout', [AuthApiController::class, 'logout']);//protegida
-Route::middleware('auth:sanctum')->get('/user', [UserApiController::class, 'getSessionData']);
 
-Route::apiResource('calendars',CalendarApiController::class);//protegida
-Route::apiResource('chronometer', ChronometerApiController::class);//protegida
-Route::apiResource('timeblocks', TimeBlockController::class);//protegida
+Route::middleware('auth:sanctum')->group(function () {
+    
+    Route::post('/logout', [AuthApiController::class, 'logout']);
+    Route::get('/user', [UserApiController::class, 'getSessionData']);
+    
+    Route::apiResource('chronometers', ChronometerApiController::class);
 
-Route::apiResource('marks', MarkApiController::class);
+    Route::apiResource('calendars',CalendarApiController::class);
+    Route::prefix('calendars/{idCalendar}')->group(function () {
+        
+        Route::get('timeblocks', [TimeblockController::class, 'index']);
+        Route::get('timeblocks/{timeblock}', [TimeblockController::class, 'show']);
+        Route::post('timeblocks', [TimeblockController::class, 'store']);
+        Route::put('timeblocks/{timeblock}', [TimeblockController::class, 'update']);
+        Route::delete('timeblocks/{timeblock}', [TimeblockController::class, 'destroy']);
+        
+    });
+
+    Route::apiResource('marks', MarkApiController::class)->except([
+        'update'
+    ]);
+
+    Route::get('kanban', [TaskApiController::class, 'index']);
+    Route::patch('tasks/{task}/move', [TaskApiController::class, 'changeColumn']);
+    Route::apiResource('tasks', TaskApiController::class)->except([
+        'update',
+        'index'
+    ]);
+
+    Route::apiResource('pomodoro',PomodoroApiController::class);
+});
+
+

@@ -11,12 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('mark', function (Blueprint $table) {
+        Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('userid')->constrained('users')->onDelete('cascade');
-            $table->string('title');
-            $table->text('content')->nullable();
-            $table->date('date')->useCurrent();
+            $table->foreignId('kanban_id')->constrained()->onDelete('cascade');
+            $table->string('name');
+            $table->text('description');
+            $table->date('expiration_date');
+            $table->enum('column', ['new','progress','done'])->default('new');
             $table->timestamps();
         });
     }
@@ -26,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('mark');
+        Schema::dropIfExists('tasks');
     }
 };

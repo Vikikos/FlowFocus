@@ -6,6 +6,7 @@ use Laravel\Sanctum\HasApiTokens;
 use Database\Factories\UserFactory;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -54,22 +55,21 @@ class User extends Authenticatable
         return $this->hasMany(Pomodoro::class);
     }
 
-    public function tasks()
-    {
-        return $this->hasMany(Task::class);
-    }
-
     public function marks()
     {
-        return $this->hasMany(Mark::class, 'id_usuario');
+        return $this->hasMany(Mark::class, 'id_user');
     }
     public function chronometers(): HasMany
     {
-        return $this->hasMany(Chronometer::class);
+        return $this->hasMany(Chronometer::class,'id_user');
     }
     public function calendars(): HasMany
     {
-        return $this->hasMany(Calendar::class);
+        return $this->hasMany(Calendar::class,'id_user');
+    }
+    public function kanban(): HasOne
+    {
+        return $this->hasOne(Kanban::class);
     }
 
 }

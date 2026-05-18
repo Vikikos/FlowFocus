@@ -13,8 +13,9 @@ return new class extends Migration
     {
         Schema::create('calendars', function (Blueprint $table) {
             $table->id();
-            $table->enum('format_year',['school','normal'])->default('school');
-            $table->enum('view_calendar',['year','month','week']);
+            $table->string('name');
+            $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
+            $table->enum('view_calendar',['multiMonthYear','dayGridMonth','timeGridWeek','timeGridDay']);
             $table->timestamps();
         });
     }

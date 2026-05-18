@@ -9,12 +9,11 @@ class Mark extends Model
 {
     use HasFactory;
 
-    protected $table = 'mark';
+    protected $table = 'marks';
 
     protected $fillable = [
         'title',
         'content',
-        'date',
     ];
 
     public function user()

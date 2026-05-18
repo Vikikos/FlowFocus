@@ -13,10 +13,11 @@ return new class extends Migration
     {
         Schema::create('timeblocks', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('id_calendar')->constrained('calendars')->onDelete('cascade');
             $table->string('title');
-            $table->time('time_start');
-            $table->time('time_end');
-            $table->date('date');
+            $table->dateTime('start');
+            $table->dateTime('end');  
+            $table->string('color')->default('#6e7ed8'); 
             $table->timestamps();
         });
     }

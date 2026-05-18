@@ -5,14 +5,14 @@ namespace App\Http\Requests;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class CalendarRequest extends FormRequest
+class ThemeRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -23,9 +23,7 @@ class CalendarRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => ['required'],
-            'view_calendar' => ['required','in:multiMonthYear,dayGridMonth,timeGridWeek,timeGridDay'],
-
+            //
         ];
     }
 }

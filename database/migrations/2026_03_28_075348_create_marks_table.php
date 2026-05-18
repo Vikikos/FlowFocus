@@ -11,13 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('chronometers', function (Blueprint $table) {
+        Schema::create('marks', function (Blueprint $table) {
             $table->id();
             $table->foreignId('id_user')->constrained('users')->onDelete('cascade');
-            $table->string('name');
-            $table->enum('status', ['paused', 'running'])->default('paused');
-            $table->enum('direction', ['count_up', 'count_down'])->default('count_up');
-            $table->integer('duration')->default(0);
+            $table->string('title');
+            $table->text('content')->nullable();
+            $table->date('date')->useCurrent();
             $table->timestamps();
         });
     }
@@ -27,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('chronometers');
+        Schema::dropIfExists('marks');
     }
 };
